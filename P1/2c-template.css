@@ -13,11 +13,11 @@ min-height: 500px;
 }
 
 .izquierda {
-width: 25%;
+width: 30%;
 }
 
 .derecha {
-width: 75%;
+width: 70%;
 }
 
 /* Clear floats despues de las columnas para eliminar la superposición */
@@ -28,7 +28,7 @@ clear: both;
 }
 
 #c1 {
-    background-color:#aaa;
+    background-color:#79d1fa;
 }
 
 #c2 {
@@ -45,8 +45,8 @@ img {
 
 .iresponsive {
     padding: 0 6px;
-    float: left;
-    width: 50%;
+    
+    width: 70%;
   }
 
 /* Responsive layout - cuando el ancho de pantalla es menor a 600px, muestra las columnas apiladas. */
