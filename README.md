@@ -2,7 +2,7 @@
 Mis prácticas de la asignatura Construcción de Servicios y Aplicaciones Audiovisuales en Internet Curso 2024-2025
 <ol>
         <li><a href="https://martinjimenezhuete.github.io/2024-2025-CSAAI-Practicas/P0/">Practica 0</a></li>
-        <li><a href="https://martinjimenezhuete.github.io/2024-2025-CSAAI-Practicas/P1/">Practica 1</a></li>
+        <li><a href="https://martinjimenezhuete.github.io/2024-2025-CSAAI-Practicas/P1/README.md">Practica 1</a></li>
 </ol>
 
 
