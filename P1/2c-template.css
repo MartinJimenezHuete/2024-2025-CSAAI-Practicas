@@ -13,6 +13,12 @@ body {
   background-position: center; /* Centra la imagen */
   background-repeat: no-repeat; /* Evita que la imagen se repita */
 }
+#cuerpo{
+  background-image: url('fondo3.jpg'); /* Ruta de la imagen */
+  background-size:cover; /* Ajusta la imagen al tamaño de la pantalla */
+  background-position:-600px; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
 
 /*CO*/
 .columna {
@@ -28,11 +34,28 @@ min-height: 500px;
 text-align: left;
 margin: 10px;
 }
+.izquierda2 {
+  width: 40%;
+  min-height: 500px;
+  text-align: left;
+  margin: 10px;
+  }
+.izquierda3 {
+  width: 32%;
+  min-height: 500px;
+  text-align: left;
+  margin: 5px;
+  }
 
 .derecha {
 width: 75%;
 margin: 10px;
 }
+.derecha2 {
+  width: 100%;
+  margin: 2px;
+  padding: 1px;
+  }
 
 /* Clear floats despues de las columnas para eliminar la superposición */
 .filla:after {
@@ -51,6 +74,19 @@ clear: both;
     background-color:rgb(49, 214, 206,0.8);
     border-radius: 40px;
     
+}
+#c3 {
+  background-color:rgba(196, 45, 201, 0.5);
+  border-radius: 40px;
+  
+}
+
+#c4 {
+  background-color:rgba(196, 45, 201, 0.5);
+  border-radius: 40px;
+  margin-top: 40px;
+  
+  
 }
 
 /* estilos para imágenes https://www.w3schools.com/css/css3_images.asp */
