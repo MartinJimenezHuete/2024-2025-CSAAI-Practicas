@@ -53,7 +53,9 @@ margin: 10px;
   min-height: 500px;
   text-align: left;
   margin: 5px;
+  margin-bottom: 100px;
   }
+
 
 .derecha {
 width: 75%;
@@ -90,15 +92,30 @@ clear: both;
   border-radius: 40px;
   
 }
+#c3:hover{
+  background-color:rgba(196, 45, 201, 0.9);
+  transform: scale(1.02);
+  transition: opacity 0.3s ease;
+}
 
 #c4 {
   background-color:rgba(196, 45, 201, 0.5);
   border-radius: 40px;
   margin-top: 40px;
+}
+#c4:hover{
+  background-color:rgba(196, 45, 201, 0.9);
+  transform: scale(1.02);
+  transition: opacity 0.3s ease;
+}
+iframe{
+  width: 426px;
+  height: 240px;
+  border-radius: 5px;
+  
   
   
 }
-
 /* estilos para imágenes https://www.w3schools.com/css/css3_images.asp */
 /* posicionamiento de imágenes https://www.w3schools.com/css/css_positioning.asp */
 
@@ -107,7 +124,13 @@ img {
     height: auto;
     border-radius: 10px;
 }
-
+.familia{
+  width: 30%;
+  height: 40%;
+  border-radius: 50%;
+  margin-left: 33%;
+  margin-right: 33%;
+}
 .iresponsive {
     padding: 0 6px;
     
@@ -131,19 +154,22 @@ img {
   left: 0;
   width: 40px;
   transition: opacity 0.3s ease;
+  
 }
 .foto2{
   position: absolute;
   top: -18px;
   left: -20px;;
   opacity: 0;
-  width: 100px
+  width: 100px;
+
   
 }
 .solapar {
   position: relative;
   width: 70px; 
   height: 70px;
+  margin-left: 20px;
   }
 .contenedor:hover .foto1 {
   opacity: 0;
@@ -180,8 +206,35 @@ button:hover {
 {
     .columna {
       width: 100%;
+      
+    
     }
+    #c1 {
+      background-color:rgb(49, 214, 206,0.8);
+      border-radius: 40px;
+      margin: auto;
+      
+    }
+    #c2 {
+      background-color:rgb(49, 214, 206,0.8);
+      border-radius: 40px;
+      margin:auto;
+      }
 
+    #c3 {
+      background-color:rgba(196, 45, 201, 0.5);
+      border-radius: 40px;
+      margin:auto;
+      
+    }
+    
+    #c4 {
+      background-color:rgba(196, 45, 201, 0.5);
+      border-radius: 40px;
+      margin-top: 40px;
+      margin:auto;
+      margin-top: 20px;
+    }
     .iresponsive {
         width: 100%;
     }
