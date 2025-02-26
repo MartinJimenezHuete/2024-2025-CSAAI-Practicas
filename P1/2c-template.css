@@ -173,7 +173,14 @@ img {
   position: relative;
   width: 70px; 
   height: 70px;
-  margin-left: 20px;
+  margin-left: 30px;
+  }
+.solapar1 {
+  position: relative;
+  width: 70px; 
+  height: 70px;
+  margin-left: 42%;
+  
   }
 .contenedor:hover .foto1 {
   opacity: 0;
@@ -191,6 +198,15 @@ button {
   border-radius: 5px;
   transition: transform 0.4s ease-in-out;
 }
+.button1 {
+  background-color:rgba(214, 49, 192, 0.8);
+  padding: 5px 10px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.4s ease-in-out;
+}
 button:hover {
   background-color: #357aa8;
   
@@ -198,6 +214,8 @@ button:hover {
 
 .center{
   text-align:center;
+  
+  
 }
 .trans{
   background-color: rgb(127, 255, 0,0.5);
@@ -241,10 +259,16 @@ button:hover {
     }
     iframe{
       width: 426px;
-  height: 240px;
-  border-radius: 5px;
-  margin-left: 0px;
-  max-width: 85%;
+      height: 240px;
+      border-radius: 5px;
+      margin-left: 0px;
+      max-width: 85%;
+      }
+    .solapar1 {
+      position: relative;
+      width: 70px; 
+      height: 70px;
+      margin-left: 33%;
       }
     .iresponsive {
         width: 100%;
