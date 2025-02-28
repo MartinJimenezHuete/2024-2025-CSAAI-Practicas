@@ -107,7 +107,27 @@ clear: both;
   background-color:rgba(196, 45, 201, 0.9);
   transform: scale(1.02);
   transition: opacity 0.3s ease;
+  }
+  #c5 {
+    background-color:rgba(196, 45, 201, 0.5);
+    border-radius: 40px;
+    margin-top: 40px;
+  }
+  #c5:hover{
+    background-color:rgba(196, 45, 201, 0.9);
+    transform: scale(1.02);
+    transition: opacity 0.3s ease;
 }
+#c6 {
+  background-color:rgba(196, 45, 201, 0.5);
+  border-radius: 40px;
+  margin-top: 40px;
+}
+#c6:hover{
+  background-color:rgba(196, 45, 201, 0.9);
+  transform: scale(1.02);
+  transition: opacity 0.3s ease;
+  }
 iframe{
   width: 426px;
   height: 240px;
