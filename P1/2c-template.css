@@ -273,19 +273,17 @@ button:hover {
       }
       #cuerpo{
         background-image: url('fondomovil.jpg'); 
-        background-size:cover; /* Ajusta la imagen al tamaño de la pantalla */
-        background-position:-140px; 
+        background-size: cover;
+        background-position: center center;
         background-repeat: no-repeat; /* Evita que la imagen se repita */
         background-attachment: fixed;
-        height: 1500px;
+        height: auto;
       }
       body {
-        background-image: url('fondomovil1.jpg'); 
+        background-image: url('fondomovil3.jpg'); 
         background-size: cover; /* Ajusta la imagen al tamaño de la pantalla */
-        background-position: -690px; 
         background-repeat: no-repeat; /* Evita que la imagen se repita */
         background-attachment: fixed;
-        height: 1000px;
       }
     .iresponsive {
         width: 100%;
