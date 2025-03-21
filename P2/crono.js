@@ -1,4 +1,8 @@
 this.nuevo=[" "," "," "," "];
+const sonidoAcierto= new Audio("acierto.mp3");
+const sonidoVictoria= new Audio("victoria.mp3");
+const sonidoDerrota= new Audio("decepcion.mp3")
+
 //-- Clase cronómetro
 class Crono {
 
@@ -75,12 +79,31 @@ class Numero {
         
     
 }
+
+function actualizarColorIntentos(x) {
+    let intentosElemento = document.getElementById("trys");
+
+    if (x > 7) {
+        intentosElemento.style.color = "green";  // Muchos intentos → Verde
+    } else if (x > 4) {
+        intentosElemento.style.color = "yellow"; // Pocos intentos → Amarillo
+    } else if (x > 1) {
+        intentosElemento.style.color = "orange"; // Muy pocos → Naranja
+    } else {
+        intentosElemento.style.color = "red";    // Último intento → Rojo
+    }
+}
+
+
+
+
 this.userInput = ["*", "*", "*", "*"];
 this.secretNumber = Math.floor(1000 + Math.random() * 9000).toString();
 this.intent=10;
 
 function alerta(x){
     if (x===1){
+        sonidoDerrota.play();
         setTimeout(() => confirm("BOOM! Te has quedado sin intentos. ¿Quieres reiniciar?") && location.reload(), 100);
     }
     if (x===2){
@@ -95,7 +118,7 @@ function intentos(n){
 }
 function desvelar(numero){
     crono.start();
-    
+    actualizarColorIntentos(intent);
     intent-= 1;
     this.trys.innerHTML="Número de intentos "+ this.intent;
 
@@ -105,9 +128,11 @@ function desvelar(numero){
 
             userInput[i] = numero ;
             nuevo[i] =userInput[i];
+            sonidoAcierto.play();
             
         }
         if(this.nuevo.toString().split(",").join("")===this.secretNumber){
+            sonidoVictoria.play();
             crono.stop();
             this.num.innerHTML= userInput[0] + " " + userInput[1] + " " + userInput[2] + " " + userInput[3];
             alerta(2);

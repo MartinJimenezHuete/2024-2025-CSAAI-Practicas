@@ -82,7 +82,37 @@ button:active {
 #reset:hover {
     background-color: #a55e07;
 }
-@media screen and (max-width: 855px)
+
+
+
+.numeros0{
+    width: 200px;
+
+}
+@media screen and (max-width: 760px)
 {
-    
+    .numeros{
+        margin-left: 200px;
+    }
+
+    .numeros3{
+        margin-left: 15px;
+        margin-right: 15px;
+        width: 400px;
+    }
+    .numeros1{
+        margin-left: 15px;
+        margin-right: 15px;
+        width: 400px;
+    }
+    .numeros2{
+        margin-left: 15px;
+        margin-right: 15px;
+        width: 400px;
+    }
+    .numeros0{
+        margin-left: 20px;
+        margin-right: 15px;
+        width: 200px;
+    }
 }
