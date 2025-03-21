@@ -1,7 +1,7 @@
 this.nuevo=[" "," "," "," "];
 const sonidoAcierto= new Audio("acierto.mp3");
 const sonidoVictoria= new Audio("victoria.mp3");
-const sonidoDerrota= new Audio("decepcion.mp3")
+const sonidoDerrota= new Audio("decepcion.mp3");
 
 //-- Clase cronómetro
 class Crono {

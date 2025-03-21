@@ -18,8 +18,8 @@ button {
     font-size: 1.5em;
     padding: 10px 20px;
     background-color: #333;
-    border: 2px solid #fff;
-    color: #fff;
+    border: 2px solid #11af19;
+    color: #ff0000;
     margin: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -27,7 +27,7 @@ button {
 }
 
 button:hover {
-    background-color: #f00;
+    background-color: rgb(209, 85, 13);
     border-color: #ffcc00;
 }
 
@@ -47,6 +47,7 @@ button:active {
 }
 
 #display{
+    margin-top: 5px;
     font-size: 3em;
     color: #ffcc00;
     font-weight: bold;
@@ -54,6 +55,7 @@ button:active {
 }
 
 #trys{
+    margin-top: 5px;
     font-size: 1.5em;
     color: #ff6666;
     text-align: center;
@@ -62,6 +64,7 @@ button:active {
 #start {
     background-color: #4CAF50;
     border: 2px solid #4CAF50;
+    color:#fff;
 }
 #start:hover {
     background-color: #29642c;
@@ -70,6 +73,7 @@ button:active {
 #stop {
     background-color: #f44336;
     border: 2px solid #f44336;
+    color:#fff;
 }
 #stop:hover {
     background-color: #a5211f;
@@ -78,6 +82,7 @@ button:active {
 #reset {
     background-color: #FF9800;
     border: 2px solid #FF9800;
+    color:#fff;
 }
 #reset:hover {
     background-color: #a55e07;
