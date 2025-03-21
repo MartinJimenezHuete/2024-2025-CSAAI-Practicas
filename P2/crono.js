@@ -138,6 +138,7 @@ function desvelar(numero){
             crono.stop();
             this.num.innerHTML= userInput[0] + " " + userInput[1] + " " + userInput[2] + " " + userInput[3];
             alerta(2);
+            intent=10
         }
             
     }
