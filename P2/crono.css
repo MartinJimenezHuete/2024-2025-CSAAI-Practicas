@@ -59,6 +59,12 @@ button:active {
     font-size: 1.5em;
     color: #ff6666;
     text-align: center;
+    align-items: center;
+}
+#bomba{
+    width: 40px;
+    height: 30px;
+    
 }
 
 #start {
@@ -88,12 +94,30 @@ button:active {
     background-color: #a55e07;
 }
 
-
-
 .numeros0{
     width: 200px;
 
 }
+
+.pantalla-explosion {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;  /* Ocupa todo el ancho */
+    height: 100vh; /* Ocupa todo el alto */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Se coloca encima de todo */
+    display: none; /* Oculto al inicio */
+}
+
+.pantalla-explosion img {
+    width: 80vw; /* Ajusta el tamaño del GIF */
+}
+
+
 @media screen and (max-width: 760px)
 {
     .numeros{

@@ -2,6 +2,7 @@ this.nuevo=[" "," "," "," "];
 const sonidoAcierto= new Audio("acierto.mp3");
 const sonidoVictoria= new Audio("victoria.mp3");
 const sonidoDerrota= new Audio("decepcion.mp3");
+const sonidoExplosion=new Audio("explosion.mp3")
 
 //-- Clase cronómetro
 class Crono {
@@ -71,14 +72,7 @@ class Crono {
     }
     
 }
-class Numero {
-    constructor(num) {
-        this.num = num;
-        this.userInput = ["*", "*", "*", "*"];
-    }
-        
-    
-}
+
 
 function actualizarColorIntentos(x) {
     let intentosElemento = document.getElementById("trys");
@@ -101,10 +95,16 @@ this.userInput = ["*", "*", "*", "*"];
 this.secretNumber = Math.floor(1000 + Math.random() * 9000).toString();
 this.intent=10;
 
+
+function gameOver() {
+    document.getElementById("explosion").style.display = "flex"; // Muestra el GIF
+}
+
+
 function alerta(x){
     if (x===1){
         sonidoDerrota.play();
-        setTimeout(() => confirm("BOOM! Te has quedado sin intentos. ¿Quieres reiniciar?") && location.reload(), 100);
+        setTimeout(() => confirm("BOOM! Te has quedado sin intentos. ¿Quieres reiniciar?") && location.reload(), 300);
     }
     if (x===2){
         setTimeout(() => confirm("FELICIDADEEES HAS GANADO, ¿Quieres jugar otra vez?") && location.reload(), 100);
@@ -113,6 +113,8 @@ function alerta(x){
 }
 function intentos(n){
     if(n===0){
+        gameOver();
+        sonidoExplosion.play();
         alerta(1);
     }
 }
