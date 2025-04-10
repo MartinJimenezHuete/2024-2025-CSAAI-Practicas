@@ -3,12 +3,23 @@ console.log("Ejecutando JS...");
 
 const canvas = document.getElementById("canvas");
 const puntos = document.getElementById("puntos");
+
+const jugadorImg = new Image();
+jugadorImg.src = "nave.png";
+
+const enemigoImg = new Image();
+enemigoImg.src = "navemala.webp";
+
+const balaImg = new Image();
+balaImg.src = "bala.png";
+
 //-- Definir el tamaño del canvas
 canvas.width = 1100;
 canvas.height = 500;
 
 //-- Obtener el contexto del canvas
 const ctx = canvas.getContext("2d");
+let nivel = 0;
 
 //-- Posición del elemento a animar
 let x = 0;
@@ -28,7 +39,7 @@ const LADRILLO = {
   origen_y: 50,
   padding: 5,
   visible: true,
-  brickSpeed: 2
+  brickSpeed: 8,
 };
 
 //-- Dirección de los ladrillos
@@ -77,7 +88,7 @@ function update()
 
   //-- 3) Dibujar los elementos visibles
   ctx.beginPath();
-    ctx.rect(x, y, 40, -40);
+    ctx.drawImage(jugadorImg,x, y, 40, -40);
 
     //-- Dibujar
     ctx.fillStyle = 'red';
@@ -94,7 +105,7 @@ function update()
     fila.every(ladrillo => !ladrillo.visible)
 );
 if (todosInvisibles) {
-  setTimeout(() => confirm("HAS GANADO") && location.reload(), 100);
+  level();
 }
   
 
@@ -108,10 +119,10 @@ update();
 // Variables globales
 let balaActiva = null;  // Solo permitiremos una bala a la vez
 let animacionActiva = false;
+let puntuacion = 0;
 
 function disparar() {
   // Solo crear nueva bala si no hay una activa
-  if (!balaActiva) {
     balaActiva = {
       x: x + 15,  // Posición inicial X (ajustada desde tu personaje)
       y: y - 40,  // Posición inicial Y
@@ -120,23 +131,21 @@ function disparar() {
       speed: 5
     };
     
-    // Iniciar animación si no está activa
-    if (!animacionActiva) {
-      animacionActiva = true;
+    // Iniciar animación
       moverBala();
-    }
-  }
+  
 }
 
 function moverBala() {
   // Verificar si hay bala para mover
-  if (balaActiva) {
     // Mover la bala
     balaActiva.y -= balaActiva.speed;
     
+
+    
     // Dibujar
     ctx.beginPath();
-    ctx.rect(balaActiva.x, balaActiva.y, balaActiva.width, -balaActiva.height);
+    ctx.drawImage(jugadorImg,balaActiva.x, balaActiva.y, balaActiva.width, -balaActiva.height);
     ctx.fillStyle = 'green';
     ctx.fill();
     ctx.stroke();
@@ -148,7 +157,7 @@ function moverBala() {
     if (balaActiva.y + balaActiva.height < 0) {
       balaActiva = null;  // Eliminar la bala
     }
-  }
+
 
   // Colision con bloques
   for (let i = 0; i < LADRILLO.F; i++) {
@@ -164,7 +173,8 @@ function moverBala() {
                 brick.visible = false;
 
                 balaActiva=null;
-                
+                puntuacion= puntuacion + 25;
+                this.puntos.innerHTML= "SCORE: " + puntuacion;
             }
         }
     }
@@ -173,9 +183,7 @@ function moverBala() {
   // Continuar animación solo si hay balas activas
   if (balaActiva) {
     requestAnimationFrame(moverBala);
-  } else {
-    animacionActiva = false;
-  }
+  } 
 }
 
 function teclas(){
@@ -204,7 +212,7 @@ function drawBricks() {
           const brick = ladrillos[i][j];
           if (brick.visible) {
               ctx.beginPath();
-              ctx.rect(brick.x, brick.y, brick.w, brick.h);
+              ctx.drawImage(enemigoImg,brick.x, brick.y, brick.w, brick.h);
               ctx.fillStyle = 'blue';
               ctx.fill();
               ctx.closePath();
@@ -235,28 +243,35 @@ function moveBricks() {
 
   if (changeDirection) {
       brickDirection *= -1;
+      for (let i = 0; i < LADRILLO.F; i++) {
+        for (let j = 0; j < LADRILLO.C; j++) {
+          ladrillos[i][j].y= ladrillos[i][j].y + 10;
+
+            }
+          }
+
   }
 
   for (let i = 0; i < LADRILLO.F; i++) {
       for (let j = 0; j < LADRILLO.C; j++) {
-        ladrillos[i][j].y= ladrillos[i][j].y + 0.1;
         ladrillos[i][j].x += LADRILLO.brickSpeed * brickDirection;
         console.log(ladrillos[i][j].y);
-        if(ladrillos[i][j].y> canvas.height-ladrillos[i][j].h){
-          ladrillos[i][j].y= 480;
+        if(ladrillos[i][j].y> 460){
+          
+          LADRILLO.brickSpeed=0;
           ladrillos[i][j].x= ladrillos[i][j].x-LADRILLO.brickSpeed * brickDirection;
-          showGameOver();
+          showGameOver("GAME OVER");
         }
       }
   }
 }
 
-function showGameOver() {
+function showGameOver(n) {
   const modal = document.getElementById('game-over');
   const title = document.getElementById('modal-title');
   const restartBtn = document.getElementById('restart-button');
   
-  title.textContent = "GAME OVER";
+  title.textContent = n;
   modal.style.display = "flex"; // Hace visible el modal
   
   // Configura el botón de reinicio
@@ -272,3 +287,14 @@ function showGameOver() {
   });
 }
 
+function level(){
+  nivel = nivel +1;
+  const level = document.getElementById("level-diplay");
+  this.level.innerHTML="LEVEL: " + nivel;
+  LADRILLO.brickSpeed * 2;
+  for (let i = 0; i < LADRILLO.F; i++) {
+    for (let j = 0; j < LADRILLO.C; j++) {
+      ladrillos[i][j].visible=true;
+      }  
+    }
+}
