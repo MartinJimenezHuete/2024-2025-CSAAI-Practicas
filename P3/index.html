@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="juego.js" defer></script>
-    <link rel="stylesheet" href="juego.css"> 
-    <link rel="shortcut icon" href="bomb-2025548_640.webp" type="image/x-icon">
-    <title>Space invaders</title>
+    <title>Breakout Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="juego.css">
 </head>
 <body>
-    <h2>Sapce invaders</h2>
-    <canvas id="canvas"></canvas>
+    <h2 class="game-title">SPACE INVADERS</h2>
+    <div id="game-container">
+        <div id="puntos">SCORE: 0</div>
+        <div id="level-display">LEVEL: 1</div>
+        <canvas id="canvas"></canvas>
+    </div>
+    <div id="controls">CONTROLES: ← → ||| SPACE para disparar</div>
+    
+    <div id="game-over" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">GAME OVER</h2>
+            <button id="restart-button">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script src="juego.js"></script>
 </body>
+</html>

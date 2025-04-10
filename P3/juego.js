@@ -2,7 +2,7 @@ console.log("Ejecutando JS...");
 
 
 const canvas = document.getElementById("canvas");
-
+const puntos = document.getElementById("puntos");
 //-- Definir el tamaño del canvas
 canvas.width = 1100;
 canvas.height = 500;
@@ -17,13 +17,49 @@ let q = 0;
 let w = 0;
 velx= 0;
 
+//-- Definir ladrillos
+
+const LADRILLO = {
+  F: 3,  // Filas
+  C: 8,  // Columnas
+  w: 60,
+  h: 20,
+  origen_x: 50,
+  origen_y: 50,
+  padding: 5,
+  visible: true,
+  brickSpeed: 2
+};
+
+//-- Dirección de los ladrillos
+let brickDirection = 1; // 1 = derecha, -1 = izquierda
+
+//-- Estructura de los ladrillos
+const ladrillos = [];
+
+//-- Crear los ladrillos
+for (let i = 0; i < LADRILLO.F; i++) {
+  ladrillos[i] = [];
+  for (let j = 0; j < LADRILLO.C; j++) {
+      ladrillos[i][j] = {
+          x: LADRILLO.origen_x + ((LADRILLO.w + LADRILLO.padding) * j),
+          y: LADRILLO.origen_y + ((LADRILLO.h + LADRILLO.padding) * i),
+          w: LADRILLO.w,
+          h: LADRILLO.h,
+          padding: LADRILLO.padding,
+          visible: LADRILLO.visible
+      };
+  }
+}
 
 
 //-- Función principal de animación
 function update() 
 {
+  
   console.log("test");
   teclas();
+  
 
   
   x = velx;
@@ -37,6 +73,7 @@ function update()
 
   //-- 2) Borrar el canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBricks();
 
   //-- 3) Dibujar los elementos visibles
   ctx.beginPath();
@@ -51,8 +88,15 @@ function update()
     //-- Dibujar el trazo
     ctx.stroke()
   ctx.closePath();
-
-  blques();
+  
+  moveBricks();
+  const todosInvisibles = ladrillos.every(fila => 
+    fila.every(ladrillo => !ladrillo.visible)
+);
+if (todosInvisibles) {
+  setTimeout(() => confirm("HAS GANADO") && location.reload(), 100);
+}
+  
 
   //-- 4) Volver a ejecutar update cuando toque
   requestAnimationFrame(update);
@@ -93,7 +137,7 @@ function moverBala() {
     // Dibujar
     ctx.beginPath();
     ctx.rect(balaActiva.x, balaActiva.y, balaActiva.width, -balaActiva.height);
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = 'green';
     ctx.fill();
     ctx.stroke();
     ctx.closePath();
@@ -105,6 +149,26 @@ function moverBala() {
       balaActiva = null;  // Eliminar la bala
     }
   }
+
+  // Colision con bloques
+  for (let i = 0; i < LADRILLO.F; i++) {
+    for (let j = 0; j < LADRILLO.C; j++) {
+        const brick = ladrillos[i][j];
+        if (brick.visible) {
+            if (
+                balaActiva.x > brick.x &&
+                balaActiva.x < brick.x + brick.w &&
+                balaActiva.y > brick.y &&
+                balaActiva.y < brick.y + brick.h
+            ) {
+                brick.visible = false;
+
+                balaActiva=null;
+                
+            }
+        }
+    }
+}
   
   // Continuar animación solo si hay balas activas
   if (balaActiva) {
@@ -131,44 +195,80 @@ function teclas(){
 };
 }
 
-function blques(velx){
-  const LADRILLO = {
-    F: 3,  // Filas
-    C: 4,  // Columnas
-    w: 30,
-    h: 20,
-    padding: 40,
-    visible: true
-    };
-    const ladrillos = [];
 
+
+//-- Dibujar ladrillos
+function drawBricks() {
   for (let i = 0; i < LADRILLO.F; i++) {
-      ladrillos[i] = [];
       for (let j = 0; j < LADRILLO.C; j++) {
-        ladrillos[i][j] = {
-            x: (LADRILLO.w + LADRILLO.padding) * j,
-            y: (LADRILLO.h + LADRILLO.padding) * i,
-            w: LADRILLO.w,
-            h: LADRILLO.h,
-            padding: LADRILLO.padding,
-            visible: LADRILLO.visible,
-          };
+          const brick = ladrillos[i][j];
+          if (brick.visible) {
+              ctx.beginPath();
+              ctx.rect(brick.x, brick.y, brick.w, brick.h);
+              ctx.fillStyle = 'blue';
+              ctx.fill();
+              ctx.closePath();
+          }
       }
-  }
-
-  
-  for (let i = 0; i < LADRILLO.F; i++) {
-    for (let j = 0; j < LADRILLO.C; j++) {
-
-      //-- Si el ladrillo es visible se pinta
-      if (ladrillos[i][j].visible) {
-        ladrillos[i][j].x = ladrillos[i][j].x + 5;
-        ctx.beginPath();
-        ctx.rect(ladrillos[i][j].x, ladrillos[i][j].y, LADRILLO.w, LADRILLO.h);
-        ctx.fillStyle = 'blue';
-        ctx.fill();
-        ctx.closePath();
-      }
-    }
   }
 }
+
+//-- Mover ladrillos
+function moveBricks() {
+  let changeDirection = false;
+
+  for (let i = 0; i < LADRILLO.F; i++) {
+      for (let j = 0; j < LADRILLO.C; j++) {
+          const brick = ladrillos[i][j];
+          if (brick.visible) {
+              const nextX = brick.x + LADRILLO.brickSpeed * brickDirection;
+              
+              if (nextX < 0 || nextX + brick.w > canvas.width) {
+                  changeDirection = true;
+                  
+                  break;
+              }
+          }
+      }
+      if (changeDirection) break;
+  }
+
+  if (changeDirection) {
+      brickDirection *= -1;
+  }
+
+  for (let i = 0; i < LADRILLO.F; i++) {
+      for (let j = 0; j < LADRILLO.C; j++) {
+        ladrillos[i][j].y= ladrillos[i][j].y + 0.1;
+        ladrillos[i][j].x += LADRILLO.brickSpeed * brickDirection;
+        console.log(ladrillos[i][j].y);
+        if(ladrillos[i][j].y> canvas.height-ladrillos[i][j].h){
+          ladrillos[i][j].y= 480;
+          ladrillos[i][j].x= ladrillos[i][j].x-LADRILLO.brickSpeed * brickDirection;
+          showGameOver();
+        }
+      }
+  }
+}
+
+function showGameOver() {
+  const modal = document.getElementById('game-over');
+  const title = document.getElementById('modal-title');
+  const restartBtn = document.getElementById('restart-button');
+  
+  title.textContent = "GAME OVER";
+  modal.style.display = "flex"; // Hace visible el modal
+  
+  // Configura el botón de reinicio
+  restartBtn.onclick = function() {
+      location.reload(); // Recarga la página
+  };
+  
+  // También puedes cerrar con Escape
+  document.addEventListener('keydown', function(e) {
+      if (e.key === "Escape") {
+          location.reload();
+      }
+  });
+}
+
