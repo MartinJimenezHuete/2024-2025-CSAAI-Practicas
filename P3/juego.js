@@ -3,6 +3,7 @@ console.log("Ejecutando JS...");
 
 const canvas = document.getElementById("canvas");
 const puntos = document.getElementById("puntos");
+const lev = document.getElementById("level-display");
 
 const jugadorImg = new Image();
 jugadorImg.src = "nave.png";
@@ -13,13 +14,20 @@ enemigoImg.src = "navemala.webp";
 const balaImg = new Image();
 balaImg.src = "bala.png";
 
+const boom = new Image();
+boom.src = "pum.png";
+
 //-- Definir el tamaño del canvas
 canvas.width = 1100;
 canvas.height = 500;
 
 //-- Obtener el contexto del canvas
 const ctx = canvas.getContext("2d");
-let nivel = 0;
+
+// Variables Niveles
+let nivel = 1;
+let maxNiveles = 1; // Por defecto 1 nivel
+let modoSeleccionado = false;
 
 //-- Posición del elemento a animar
 let x = 0;
@@ -39,7 +47,7 @@ const LADRILLO = {
   origen_y: 50,
   padding: 5,
   visible: true,
-  brickSpeed: 8,
+  brickSpeed: 4,
 };
 
 //-- Dirección de los ladrillos
@@ -58,7 +66,8 @@ for (let i = 0; i < LADRILLO.F; i++) {
           w: LADRILLO.w,
           h: LADRILLO.h,
           padding: LADRILLO.padding,
-          visible: LADRILLO.visible
+          visible: LADRILLO.visible,
+          foto: enemigoImg,
       };
   }
 }
@@ -69,7 +78,6 @@ function update()
 {
   
   console.log("test");
-  teclas();
   
 
   
@@ -105,7 +113,17 @@ function update()
     fila.every(ladrillo => !ladrillo.visible)
 );
 if (todosInvisibles) {
-  level();
+    level();
+    if (nivel > maxNiveles) {
+      showGameOver("YOU WIN");
+      for (let i = 0; i < LADRILLO.F; i++) {
+        ladrillos[i] = [];
+        for (let j = 0; j < LADRILLO.C; j++) {
+          ladrillos[i][j].x = 50;
+          ladrillos[i][j].y = 50;
+          }
+        }
+    }
 }
   
 
@@ -114,76 +132,88 @@ if (todosInvisibles) {
 }
 
 //-- ¡Que empiece la función!
-update();
+
+teclas();
 
 // Variables globales
-let balaActiva = null;  // Solo permitiremos una bala a la vez
+let balas =[];
+const balasmax=40;
 let animacionActiva = false;
 let puntuacion = 0;
 
 function disparar() {
-  // Solo crear nueva bala si no hay una activa
-    balaActiva = {
-      x: x + 15,  // Posición inicial X (ajustada desde tu personaje)
-      y: y - 40,  // Posición inicial Y
+  // Verifica que no se exceda el límite de balas
+  if (balas.length < balasmax) {
+    balas.push({
+      x: x + 15,  // Posición X (centrada en el jugador)
+      y: y - 40,  // Posición Y (sobre el jugador)
       width: 10,
       height: 10,
       speed: 5
-    };
+    });
     
-    // Iniciar animación
-      moverBala();
-  
+    // Inicia la animación si no hay balas previas
+    if (balas.length === 1) {
+      requestAnimationFrame(moverBalas);
+    }
+  }
 }
 
-function moverBala() {
-  // Verificar si hay bala para mover
-    // Mover la bala
-    balaActiva.y -= balaActiva.speed;
+function moverBalas() {
+  // Filtra balas fuera de pantalla
+  balas = balas.filter(bala => bala.y + bala.height > 0);
+  
+  // Array para guardar índices de balas a eliminar
+  let balasAEliminar = [];
+  
+  // Dibuja y mueve balas
+  ctx.fillStyle = 'red';
+  for (let i = 0; i < balas.length; i++) {
+    const bala = balas[i];
+    bala.y -= bala.speed;
     
-
-    
-    // Dibujar
     ctx.beginPath();
-    ctx.drawImage(jugadorImg,balaActiva.x, balaActiva.y, balaActiva.width, -balaActiva.height);
-    ctx.fillStyle = 'green';
+    ctx.drawImage(jugadorImg,bala.x, bala.y, bala.width, -bala.height);
     ctx.fill();
-    ctx.stroke();
     ctx.closePath();
-
     
+    // Verifica colisión con ladrillos
+    for (let f = 0; f < LADRILLO.F; f++) {
+      for (let c = 0; c < LADRILLO.C; c++) {
+        const brick = ladrillos[f][c];
+        if (brick.visible && Choque(bala, brick)) {
+          brick.foto= boom;
+          setTimeout(function(){
+            brick.visible=false;
+          },150)
+      
+          balasAEliminar.push(i); // Marca esta bala para eliminar
 
-    // Verificar si salió de pantalla
-    if (balaActiva.y + balaActiva.height < 0) {
-      balaActiva = null;  // Eliminar la bala
-    }
-
-
-  // Colision con bloques
-  for (let i = 0; i < LADRILLO.F; i++) {
-    for (let j = 0; j < LADRILLO.C; j++) {
-        const brick = ladrillos[i][j];
-        if (brick.visible) {
-            if (
-                balaActiva.x > brick.x &&
-                balaActiva.x < brick.x + brick.w &&
-                balaActiva.y > brick.y &&
-                balaActiva.y < brick.y + brick.h
-            ) {
-                brick.visible = false;
-
-                balaActiva=null;
-                puntuacion= puntuacion + 25;
-                this.puntos.innerHTML= "SCORE: " + puntuacion;
-            }
+          puntuacion+=25;
+          this.puntos.innerHTML="SCORE:  " + puntuacion;
+          break;
         }
+      }
     }
-}
+  }
+
+  // Elimina balas que colisionaron (empezando por las últimas para evitar problemas de índices)
+  balasAEliminar.sort((a, b) => b - a).forEach(index => {
+    balas.splice(index, 1);
+  });
   
-  // Continuar animación solo si hay balas activas
-  if (balaActiva) {
-    requestAnimationFrame(moverBala);
-  } 
+  if (balas.length > 0) {
+    requestAnimationFrame(moverBalas);
+  }
+}
+// Función auxiliar para detectar colisiones
+function Choque(bala, brick) {
+  return (
+    bala.x > brick.x &&
+    bala.x < brick.x + brick.w &&
+    bala.y > brick.y &&
+    bala.y < brick.y + brick.h
+  );
 }
 
 function teclas(){
@@ -198,7 +228,6 @@ function teclas(){
     }
     if(event.keyCode === 32){
       disparar();
-      moverBala();
     }
 };
 }
@@ -212,7 +241,7 @@ function drawBricks() {
           const brick = ladrillos[i][j];
           if (brick.visible) {
               ctx.beginPath();
-              ctx.drawImage(enemigoImg,brick.x, brick.y, brick.w, brick.h);
+              ctx.drawImage(brick.foto,brick.x, brick.y, brick.w, brick.h);
               ctx.fillStyle = 'blue';
               ctx.fill();
               ctx.closePath();
@@ -272,14 +301,12 @@ function showGameOver(n) {
   const restartBtn = document.getElementById('restart-button');
   
   title.textContent = n;
-  modal.style.display = "flex"; // Hace visible el modal
+  modal.style.display = "flex";
   
-  // Configura el botón de reinicio
   restartBtn.onclick = function() {
-      location.reload(); // Recarga la página
+      location.reload();
   };
   
-  // También puedes cerrar con Escape
   document.addEventListener('keydown', function(e) {
       if (e.key === "Escape") {
           location.reload();
@@ -287,14 +314,64 @@ function showGameOver(n) {
   });
 }
 
-function level(){
-  nivel = nivel +1;
-  const level = document.getElementById("level-diplay");
-  this.level.innerHTML="LEVEL: " + nivel;
-  LADRILLO.brickSpeed * 2;
+function level() {
+  nivel += 1;
+  lev.innerHTML = "LEVEL: " + nivel;
+  LADRILLO.brickSpeed += 2; 
+  
+  // Reinicia los ladrillos
   for (let i = 0; i < LADRILLO.F; i++) {
     for (let j = 0; j < LADRILLO.C; j++) {
-      ladrillos[i][j].visible=true;
-      }  
-    }
+      ladrillos[i][j].visible = true;
+      ladrillos[i][j].y = LADRILLO.origen_y + ((LADRILLO.h + LADRILLO.padding) * i);
+      ladrillos[i][j].foto = enemigoImg;
+    }  
+  }
+  
+  // Verifica si se alcanzó el máximo de niveles
+  if (nivel >= maxNiveles && maxNiveles !== 1) {
+    setTimeout(() => {
+      showGameOver("¡HAS COMPLETADO LOS 20 NIVELES!");
+    }, 500);
+  }
 }
+
+
+function iniciarModoUnNivel() {
+  maxNiveles = 1;
+  modoSeleccionado = true;
+  reiniciarJuego();
+  update();
+}
+
+function iniciarModoVeinteNiveles() {
+  maxNiveles = 10;
+  modoSeleccionado = true;
+  reiniciarJuego();
+  update();
+}
+
+function reiniciarJuego() {
+  puntuacion = 0;
+  puntos.innerHTML = "SCORE: 0";
+  nivel = 1;
+  LADRILLO.brickSpeed = 4; // Velocidad inicial
+  lev.innerHTML = "LEVEL: " + nivel;
+  
+  // Reinicia los ladrillos
+  for (let i = 0; i < LADRILLO.F; i++) {
+    for (let j = 0; j < LADRILLO.C; j++) {
+      ladrillos[i][j].visible = true;
+      ladrillos[i][j].x = LADRILLO.origen_x + ((LADRILLO.w + LADRILLO.padding) * j);
+      ladrillos[i][j].y = LADRILLO.origen_y + ((LADRILLO.h + LADRILLO.padding) * i);
+      ladrillos[i][j].foto = enemigoImg;
+    }  
+  }
+  
+  // Oculta los botones después de seleccionar
+  document.getElementById('single-level').style.display = 'none';
+  document.getElementById('twenty-levels').style.display = 'none';
+}
+
+document.getElementById('single-level').addEventListener('click', iniciarModoUnNivel);
+document.getElementById('twenty-levels').addEventListener('click', iniciarModoVeinteNiveles);
