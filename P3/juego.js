@@ -5,7 +5,7 @@ const canvas = document.getElementById("canvas");
 const puntos = document.getElementById("puntos");
 const lev = document.getElementById("level-display");
 
-const sonidoAcierto= new Audio("choque.mp3");
+const sonidoBala= new Audio("choque.mp3");
 const sonidoVictoria= new Audio("Victoria.mp3");
 const sonidoDerrota= new Audio("Derrota.mp3");
 const sonidoExplosion=new Audio("bum.mp3");
@@ -121,6 +121,7 @@ if (todosInvisibles) {
     level();
     if (nivel > maxNiveles) {
       showGameOver("YOU WIN");
+      sonidoVictoria.play();
       for (let i = 0; i < LADRILLO.F; i++) {
         ladrillos[i] = [];
         for (let j = 0; j < LADRILLO.C; j++) {
@@ -188,6 +189,11 @@ function moverBalas() {
         const brick = ladrillos[f][c];
         if (brick.visible && Choque(bala, brick)) {
           brick.foto= boom;
+          sonidoExplosion.play()
+          setTimeout(() => {
+            sonidoExplosion.pause();
+            sonidoExplosion.currentTime = 0;  // Reiniciar el audio
+          }, 2000);
           setTimeout(function(){
             brick.visible=false;
           },150)
@@ -232,6 +238,11 @@ function teclas(){
       velx=velx - 6;
     }
     if(event.keyCode === 32){
+      sonidoBala.play()
+          setTimeout(() => {
+            sonidoBala.pause();
+            sonidoBala.currentTime = 0;  // Reiniciar el audio
+          }, 2000);
       disparar();
     }
 };
@@ -295,6 +306,7 @@ function moveBricks() {
           LADRILLO.brickSpeed=0;
           ladrillos[i][j].x= ladrillos[i][j].x-LADRILLO.brickSpeed * brickDirection;
           showGameOver("GAME OVER");
+          sonidoDerrota.play();
         }
       }
   }
@@ -336,8 +348,9 @@ function level() {
   // Verifica si se alcanzó el máximo de niveles
   if (nivel >= maxNiveles && maxNiveles !== 1) {
     setTimeout(() => {
-      showGameOver("¡HAS COMPLETADO LOS 20 NIVELES!");
+      showGameOver("¡HAS COMPLETADO LOS 10 NIVELES!");
     }, 500);
+    sonidoVictoria.play()
   }
 }
 
