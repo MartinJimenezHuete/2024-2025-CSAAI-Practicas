@@ -373,5 +373,39 @@ function reiniciarJuego() {
   document.getElementById('twenty-levels').style.display = 'none';
 }
 
+// Controles táctiles
+document.getElementById('btn-left').addEventListener('mousedown', function() {
+  velx = velx-6;
+});
+
+
+
+document.getElementById('btn-right').addEventListener('mousedown', function() {
+  velx = velx + 6;
+});
+
+
+document.getElementById('btn-shoot').addEventListener('click', function() {
+  disparar();
+});
+
+// Para dispositivos táctiles
+document.getElementById('btn-left').addEventListener('touchstart', function(e) {
+  e.preventDefault();
+  velx = velx -6;
+});
+
+
+document.getElementById('btn-right').addEventListener('touchstart', function(e) {
+  e.preventDefault();
+  velx = velx + 6;
+});
+
+
+document.getElementById('btn-shoot').addEventListener('touchstart', function(e) {
+  e.preventDefault();
+  disparar();
+});
+
 document.getElementById('single-level').addEventListener('click', iniciarModoUnNivel);
 document.getElementById('twenty-levels').addEventListener('click', iniciarModoVeinteNiveles);
