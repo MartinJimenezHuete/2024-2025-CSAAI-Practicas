@@ -241,7 +241,7 @@ function teclas(){
       sonidoBala.play()
           setTimeout(() => {
             sonidoBala.pause();
-            sonidoBala.currentTime = 0;  // Reiniciar el audio
+            sonidoBala.currentTime = 1;  // Reiniciar el audio
           }, 1000);
       disparar();
     }
