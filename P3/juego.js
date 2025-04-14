@@ -242,7 +242,7 @@ function teclas(){
           setTimeout(() => {
             sonidoBala.pause();
             sonidoBala.currentTime = 0;  // Reiniciar el audio
-          }, 2000);
+          }, 1000);
       disparar();
     }
 };
