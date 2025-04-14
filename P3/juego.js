@@ -238,10 +238,11 @@ function teclas(){
       velx=velx - 6;
     }
     if(event.keyCode === 32){
+      sonidoBala.currentTime = 1000;
       sonidoBala.play()
           setTimeout(() => {
             sonidoBala.pause();
-            sonidoBala.currentTime = 1;  // Reiniciar el audio
+            sonidoBala.currentTime = 1000;  // Reiniciar el audio
           }, 1000);
       disparar();
     }
