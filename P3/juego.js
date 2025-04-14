@@ -5,6 +5,11 @@ const canvas = document.getElementById("canvas");
 const puntos = document.getElementById("puntos");
 const lev = document.getElementById("level-display");
 
+const sonidoAcierto= new Audio("choque.mp3");
+const sonidoVictoria= new Audio("Victoria.mp3");
+const sonidoDerrota= new Audio("Derrota.mp3");
+const sonidoExplosion=new Audio("bum.mp3");
+
 const jugadorImg = new Image();
 jugadorImg.src = "nave.png";
 
