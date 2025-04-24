@@ -1,5 +1,4 @@
 const Ganar= new Audio("Ganar.mp3");
-const flop= new Audio("flip.mp3");
 
 const selectors = {
     gridContainer: document.querySelector('.grid-container'),
@@ -11,7 +10,8 @@ const selectors = {
     inicio: document.querySelector('.empezar'),
     dos: document.getElementById('dos'),
     cuatro: document.getElementById('cuatro'),
-    seis: document.getElementById('seis')
+    seis: document.getElementById('seis'),
+    fondo: document.querySelector('body')
 }
 
 const getTablero = () => document.querySelector('.tablero')
@@ -23,11 +23,17 @@ const state = {
     totalTime: 0,
     loop: null
 }
+const emojiSets={
+    frutas : ['🥔', '🍒', '🥑', '🌽', '🥕', '🍇', '🍉', '🍌', '🥭', '🍍','🫒​','​🫜','​🥒','​🍊','​🍎','​🍐','🥥','🍋‍🟩'],
+    comida : ['🍖','​🍗','🥩','🥓','🍔','🍟','🍕','🌭','🥪​','🌮','​🌯','🫔','​🥙','🧆','🍜','🍤','🍱','🥠']
+}
+
+let currentEmojiSet = emojiSets.frutas;
 
 const generateGame = () => {
     
-    selectors.game.hidden=false
-    const dimensions = getTablero().getAttribute('grid-dimension')
+    selectors.game.hidden=false;
+    const dimensions = getTablero().getAttribute('grid-dimension');
 
     //-- Nos aseguramos de que el número de dimensiones es par
     // y si es impar lanzamos un error
@@ -35,14 +41,15 @@ const generateGame = () => {
         throw new Error("Las dimensiones del tablero deben ser un número par.")
     }
 
+
     //-- Creamos un array con los emojis que vamos a utilizar en nuestro juego
-    const emojis = ['🥔', '🍒', '🥑', '🌽', '🥕', '🍇', '🍉', '🍌', '🥭', '🍍']
+    
     
     //-- Elegimos un subconjunto de emojis al azar, así cada vez que comienza el juego
     // es diferente.
     // Es decir, si tenemos un array con 10 emojis, vamos a elegir el cuadrado de las
     // dimensiones entre dos, para asegurarnos de que cubrimos todas las cartas
-    const picks = pickRandom(emojis, (dimensions * dimensions) / 2) 
+    const picks = pickRandom(currentEmojiSet, (dimensions * dimensions) / 2) 
 
     //-- Después descolocamos las posiciones para asegurarnos de que las parejas de cartas
     // están desordenadas.
@@ -132,6 +139,8 @@ const attachEventListeners = () => {
             state.flippedCards=0,
             state.totalFlips=0,
             state.totalTime=0,
+            document.getElementById('setFrutas').hidden=false;
+            document.getElementById('setAnimales').hidden=false;
             selectors.movimientos.innerText = `${state.totalFlips} movimientos`
             selectors.timer.innerText = `tiempo: ${state.totalTime} sec`
 
@@ -147,6 +156,7 @@ const attachEventListeners = () => {
                 })
 
             selectors.gridContainer.classList.remove('flipped')
+            document.body.style.backgroundImage = "url('./frutas2.jpg')";
 
             
     
@@ -154,6 +164,7 @@ const attachEventListeners = () => {
         }
         
     })
+    
 }
 
 function empezar(){
@@ -162,6 +173,22 @@ function empezar(){
     selectors.cuatro.hidden=false
     selectors.seis.hidden=false
     selectors.inicio.hidden=false
+    document.getElementById('setFrutas').addEventListener('click', () => {
+        currentEmojiSet = emojiSets.frutas;
+        document.getElementById('setFrutas').hidden=true;
+        document.getElementById('setAnimales').hidden=true;
+        alert('Set de frutas seleccionado 🍍');
+
+    });
+    
+    document.getElementById('setAnimales').addEventListener('click', () => {
+        currentEmojiSet = emojiSets.comida;
+        document.getElementById('setFrutas').hidden=true;
+        document.getElementById('setAnimales').hidden=true;
+        alert('Set de comida seleccionado 🍔​');
+        document.body.style.backgroundImage = "url('./comida.jpg')";
+
+    });
     document.addEventListener('click', event => {
         
         const eventTarget = event.target
@@ -174,6 +201,8 @@ function empezar(){
             selectors.cuatro.hidden=true
             selectors.seis.hidden=true
             selectors.inicio.hidden=true
+            document.getElementById('setFrutas').hidden=true;
+            document.getElementById('setAnimales').hidden=true;
 
             // Asignamos las funciones de callback para determinados eventos
             attachEventListeners()
@@ -187,6 +216,8 @@ function empezar(){
             selectors.cuatro.hidden=true
             selectors.seis.hidden=true
             selectors.inicio.hidden=true
+            document.getElementById('setFrutas').hidden=true;
+            document.getElementById('setAnimales').hidden=true;
 
             // Asignamos las funciones de callback para determinados eventos
             attachEventListeners()
@@ -200,6 +231,8 @@ function empezar(){
             selectors.cuatro.hidden=true
             selectors.seis.hidden=true
             selectors.inicio.hidden=true
+            document.getElementById('setFrutas').hidden=true;
+            document.getElementById('setAnimales').hidden=true;
 
             // Asignamos las funciones de callback para determinados eventos
             attachEventListeners()

@@ -92,6 +92,10 @@ button.disabled {
     margin-bottom: 80px;
     
 }
+#setFrutas{
+    margin-left: 26px;
+}
+
 
 .grid-container {
     position: relative;
