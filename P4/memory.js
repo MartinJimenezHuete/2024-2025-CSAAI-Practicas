@@ -1,4 +1,5 @@
 const Ganar= new Audio("Ganar.mp3");
+const flop= new Audio("flip.mp3");
 
 const selectors = {
     gridContainer: document.querySelector('.grid-container'),
@@ -224,8 +225,14 @@ const startGame = () => {
         selectors.timer.innerText = `tiempo: ${state.totalTime} sec`
     }, 1000)
 }
+function sonido(){
+    const audio = new Audio('flip.mp3');
+    audio.play();
 
+}
 const flipCard = card => {
+    sonido().play;
+
     // Sumamos uno al contador de cartas giradas
     state.flippedCards++
     // Sumamos uno al contador general de movimientos
