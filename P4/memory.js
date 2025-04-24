@@ -1,3 +1,5 @@
+const Ganar= new Audio("Ganar.mp3");
+
 const selectors = {
     gridContainer: document.querySelector('.grid-container'),
     movimientos: document.querySelector('.movimientos'),
@@ -5,9 +7,10 @@ const selectors = {
     comenzar: document.querySelector('button'),
     win: document.querySelector('.win'),
     game:document.querySelector('.game'),
-    dos: document.getElementById('2'),
-    cuatro: document.getElementById('4'),
-    seis: document.getElementById('6')
+    inicio: document.querySelector('.empezar'),
+    dos: document.getElementById('dos'),
+    cuatro: document.getElementById('cuatro'),
+    seis: document.getElementById('seis')
 }
 
 const getTablero = () => document.querySelector('.tablero')
@@ -157,10 +160,11 @@ function empezar(){
     selectors.dos.hidden=false
     selectors.cuatro.hidden=false
     selectors.seis.hidden=false
+    selectors.inicio.hidden=false
     document.addEventListener('click', event => {
         
         const eventTarget = event.target
-        if (eventTarget.id === "2") {
+        if (eventTarget.id === "dos") {
             getTablero().setAttribute('grid-dimension',2)
             // Generamos el juego
             generateGame()
@@ -168,11 +172,12 @@ function empezar(){
             selectors.dos.hidden=true
             selectors.cuatro.hidden=true
             selectors.seis.hidden=true
+            selectors.inicio.hidden=true
 
             // Asignamos las funciones de callback para determinados eventos
             attachEventListeners()
         }
-        else if (eventTarget.id === "4") {
+        else if (eventTarget.id === "cuatro") {
             getTablero().setAttribute('grid-dimension',4)
             // Generamos el juego
             generateGame()
@@ -180,11 +185,12 @@ function empezar(){
             selectors.dos.hidden=true
             selectors.cuatro.hidden=true
             selectors.seis.hidden=true
+            selectors.inicio.hidden=true
 
             // Asignamos las funciones de callback para determinados eventos
             attachEventListeners()
         }
-        else if (eventTarget.id === "6") {
+        else if (eventTarget.id === "seis") {
             getTablero().setAttribute('grid-dimension',6)
             // Generamos el juego
             generateGame()
@@ -192,6 +198,7 @@ function empezar(){
             selectors.dos.hidden=true
             selectors.cuatro.hidden=true
             selectors.seis.hidden=true
+            selectors.inicio.hidden=true
 
             // Asignamos las funciones de callback para determinados eventos
             attachEventListeners()
@@ -264,6 +271,8 @@ const flipCard = card => {
         setTimeout(() => {
             // Le damos la vuelta al tablero
             selectors.gridContainer.classList.add('flipped')
+            Ganar.play();
+
             // Le mostramos las estadísticas del juego
             selectors.win.innerHTML = `
                 <span class="win-text">
