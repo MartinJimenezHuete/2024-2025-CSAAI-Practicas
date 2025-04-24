@@ -231,7 +231,7 @@ function sonido(){
 
 }
 const flipCard = card => {
-    sonido().play;
+    sonido()
 
     // Sumamos uno al contador de cartas giradas
     state.flippedCards++
