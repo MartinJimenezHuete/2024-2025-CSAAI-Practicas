@@ -1,27 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulación de envío de paquetes de datos</title>
-
-    <link rel="stylesheet" href="net.css">
-
-    <script src="nett.js" defer></script>
-    <script src="nett-dijkstra.js" defer></script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulación de Envío de Paquetes</title>
+  <link rel="stylesheet" href="net.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <script src="nett.js" defer></script>
+  <script src="nett-dijkstra.js" defer></script>
 </head>
 <body>
+  <main class="container">
+    <h1>Simulador de Red de Paquetes</h1>
+
     <div class="controls">
-        <button id="btnCNet">Generar Red</button>
-        <button id="btnMinPath">Calcular ruta</button>
-        <div>
-            <p>Numero de nodos</p>
-            <p>Tiempo total:</p>
-            <p>Red Generada</p>
-        </div>
+      <button id="btnCNet">🔄 Generar Red</button>
+      <button id="btnMinPath">📍 Calcular Ruta</button>
     </div>
 
-    <canvas id="networkCanvas" width="800" height="400"></canvas>
+    <div class="info">
+      <p id="Numnodos">Número de nodos:</p>
+      <p id="tiempo">⏱ Tiempo total:</p>
+      <p id="Red">La red no está generada, porfavor genere una red</p>
+    </div>
+
+    <canvas id="networkCanvas" width="900" height="500"></canvas>
+  </main>
 </body>
 </html>
